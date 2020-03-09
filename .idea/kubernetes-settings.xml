@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="KubernetesSettings">
+    <option name="apiVersion" value="1.16" />
+    <specSources>
+      <SpecSource>
+        <option name="pathOrUrl" value="$PROJECT_DIR$/deploy/kube/rook-ceph/rook-crds.yaml" />
+      </SpecSource>
+    </specSources>
+  </component>
+</project>
