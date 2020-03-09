@@ -23,14 +23,32 @@ provider "helm" {
   }
 }
 
+provider "kubernetes" {
+  load_config_file = false
+  host = digitalocean_kubernetes_cluster.this.endpoint
+  token = digitalocean_kubernetes_cluster.this.kube_config[0].token
+  cluster_ca_certificate = base64decode(digitalocean_kubernetes_cluster.this.kube_config[0].cluster_ca_certificate)
+}
+
 data "helm_repository" "incubator" {
   name = "incubator"
   url  = "http://storage.googleapis.com/kubernetes-charts-incubator"
+}
+
+resource "kubernetes_namespace" "spark_operator" {
+  metadata {
+    name = "spark-operator"
+  }
 }
 
 resource "helm_release" "spark" {
   name = "sparkoperator"
   chart = "sparkoperator"
   repository = data.helm_repository.incubator.metadata[0].name
-}
+  namespace = kubernetes_namespace.spark_operator.metadata[0].name
 
+  set {
+    name  = "enableWebhook"
+    value = true
+  }
+}
