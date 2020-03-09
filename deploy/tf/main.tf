@@ -6,7 +6,7 @@ resource "digitalocean_kubernetes_cluster" "this" {
   node_pool {
     name       = "main"
     node_count = 3
-    size       = "s-2vcpu-4gb"
+    size       = "s-4vcpu-8gb"
   }
 }
 
